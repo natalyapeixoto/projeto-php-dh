@@ -17,7 +17,7 @@
             ]);
 
             $novoProduto = $query->fetchAll(PDO::FETCH_ASSOC);
-            print_r($produto);
+           
             $conexao = null;
             
         } catch( PDOExeption $Exception ) {

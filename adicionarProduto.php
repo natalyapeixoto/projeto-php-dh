@@ -4,6 +4,18 @@
     include "inc/head.php";
     include "inc/header.php";
 
+    try{
+        global $conexao;
+
+        $query = $conexao->query("SELECT * FROM usuarios WHERE tipo_usuario_fk = 2;");
+        
+        $professores = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    } catch(PDOException $Exception) {
+
+        echo $Exception->getMessage();
+    }
+
     if($_POST){
 
         $nome = $_REQUEST['nome'];
@@ -38,10 +50,10 @@
          "preco"=> $preco,
          "tag"=> $tag,
          "professor"=> $professor,
-         "imagem"=> $caminhoCompleto
+         "imagem"=> $tag . ".png"
      ];
       
-     print_r($produto);
+    
      $adicionou = adicionarProduto($produto);
 
     }
@@ -79,8 +91,13 @@
                 <label for="professor">Professor</label>
                 <select name="professor" id="professor" class="col-xs-12 form-control">
                     <option disabled selected>Selectione um professor</option>
-                    <option value="1">Thomaz</option>
-                    <option value="2">Hendy</option>
+                    <?php
+                        if(isset($professores)) {
+                            foreach($professores as $professor) {
+                                echo "<option value='". $professor['id_usuario'] . "'>". $professor['nome'] . "</option>";
+                            }
+                        }
+                    ?>
                 </select>
            </div>
            <div class="col-xs-12">
