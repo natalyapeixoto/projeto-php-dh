@@ -4,13 +4,12 @@
         try {
             global $conexao;
             $query = $conexao->prepare("INSERT INTO usuarios (nome, email, senha, tipo_usuario_fk) VALUES (:nome, :email, :senha, 3)"); //adiciona usuario
-    
+          
             $query->execute([
                 ':nome' => $usuario['nome'],
                 ':email' => $usuario['email'],
                 ':senha' => $usuario['senha']
             ]);
-
             $usuario = $query->fetchAll(PDO::FETCH_ASSOC); // traz todas as linhas em array associativo
             
             $conexao = null;
@@ -22,6 +21,8 @@
     }
 
     function logarUsuario($email, $senha) {
+
+        $infoLogado = false;
         try {
             global $conexao;
 
